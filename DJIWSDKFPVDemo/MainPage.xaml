@@ -1,0 +1,39 @@
+﻿<Page
+    x:Class="DJIWSDKDemo.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DJIWSDKDemo"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="4*"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="3*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+                <Button Name="SetCameraWorkModeToShootPhoto" Margin="1, 1, 1, 1" Click="SetCameraWorkModeToShootPhoto_Click">Set Shoot Photo Work Mode</Button>
+                <Button Name="SetCameraModeToRecord" Margin="1, 1, 1, 1" Click="SetCameraModeToRecord_Click">Set Record Video Work Mode</Button>
+                <Button Name="StartShootPhoto" Margin="1, 1, 1, 1" Click="StartShootPhoto_Click">Shoot Photo</Button>
+                <Button Name="StartRecordVideo" Margin="1, 1, 1, 1" Click="StartRecordVideo_Click">Start Record</Button>
+                <Button Name="StopRecordVideo" Margin="1, 1, 1, 1" Click="StopRecordVideo_Click">Stop Record</Button>
+            </StackPanel>
+            <StackPanel Grid.Column="1">
+                <TextBlock>Current Mode:</TextBlock>
+                <TextBlock Name="ModeTB">Unknown</TextBlock>
+                <TextBlock>Current Record Time:</TextBlock>
+                <TextBlock Name="RecordTimeTB">0</TextBlock>
+                <TextBlock Name="OutputTB"></TextBlock>
+            </StackPanel>
+        </Grid>
+        <Image x:Name="FPVImage" 
+               Stretch="UniformToFill"
+               Grid.Row="1"></Image>
+    </Grid>
+</Page>
