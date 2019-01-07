@@ -33,8 +33,8 @@ namespace DJIWSDKDemo
         {
             this.InitializeComponent();
             DJISDKManager.Instance.SDKRegistrationStateChanged += Instance_SDKRegistrationEvent;
-            //Replace app key with the real key registered. Make sure that the key is matched with your application's package id.
-            DJISDKManager.Instance.RegisterApp("app key");
+            //Replace with your registered App Key. Make sure your App Key matched your application's package name on DJI developer center.
+            DJISDKManager.Instance.RegisterApp("Please enter your App Key here.");
         }
 
         private async void Instance_SDKRegistrationEvent(SDKRegistrationState state, SDKError resultCode)
@@ -42,28 +42,31 @@ namespace DJIWSDKDemo
             if (resultCode == SDKError.NO_ERROR)
             {
                 System.Diagnostics.Debug.WriteLine("Register app successfully.");
+
+                //The product connection state will be updated when it changes here.
                 DJISDKManager.Instance.ComponentManager.GetProductHandler(0).ProductTypeChanged += async delegate (object sender, ProductTypeMsg? value)
                 {
                     await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
                     {
                         if (value != null && value?.value != ProductType.NONE)
                         {
-                            System.Diagnostics.Debug.WriteLine("Aircraft is connected now.");
-                            //You can load/display your pages relative to aircraft operations here.
+                            System.Diagnostics.Debug.WriteLine("The Aircraft is connected now.");
+                            //You can load/display your pages according to the aircraft connection state here.
                         }
                         else
                         {
-                            System.Diagnostics.Debug.WriteLine("Aircraft is disconnected now.");
-                            //You can hide your pages relative to aircraft operations, or provide users with some aircraft connection tips here.
+                            System.Diagnostics.Debug.WriteLine("The Aircraft is disconnected now.");
+                            //You can hide your pages according to the aircraft connection state here, or show the connection tips to the users.
                         }
                     });
                 };
-                //You need to get the product's connection state after activating, if you have already connected the aircraft before activate Windows SDK.
+                
+                //If you want to get the latest product connection state manually, you can use the following code
                 var productType = (await DJISDKManager.Instance.ComponentManager.GetProductHandler(0).GetProductTypeAsync()).value;
                 if (productType != null && productType?.value != ProductType.NONE)
                 {
                     System.Diagnostics.Debug.WriteLine("Aircraft is connected now.");
-                    //You can load/display your pages relative to aircraft operations here.
+                    //You can load/display your pages according to the aircraft connection state here.
                 }
 
                 //listen video receive data
@@ -101,7 +104,7 @@ namespace DJIWSDKDemo
 
             } else
             {
-                System.Diagnostics.Debug.WriteLine("SDK register failed, the error is: ");
+                System.Diagnostics.Debug.WriteLine("Register SDK failed, the error is:");
                 System.Diagnostics.Debug.WriteLine(resultCode.ToString());
             }
         }
@@ -161,7 +164,7 @@ namespace DJIWSDKDemo
             }
             else
             {
-                OutputTB.Text = "SDK hasn't been activated yet.";
+                OutputTB.Text = "The application hasn't been registered successfully yet.";
             }
         }
 
@@ -181,7 +184,7 @@ namespace DJIWSDKDemo
             }
             else
             {
-                OutputTB.Text = "SDK hasn't been activated yet.";
+                OutputTB.Text = "The application hasn't been registered successfully yet.";
             }
         }
 
@@ -201,7 +204,7 @@ namespace DJIWSDKDemo
             }
             else
             {
-                OutputTB.Text = "SDK hasn't been activated yet.";
+                OutputTB.Text = "The application hasn't been registered successfully yet.";
             }
         }
 
@@ -231,7 +234,7 @@ namespace DJIWSDKDemo
             }
             else
             {
-                OutputTB.Text = "SDK hasn't been activated yet.";
+                OutputTB.Text = "The application hasn't been registered successfully yet.";
             }
         }
     }
