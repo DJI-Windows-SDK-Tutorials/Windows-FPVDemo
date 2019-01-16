@@ -14,7 +14,8 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using DJI.WindowsSDK;
 using Windows.UI.Xaml.Media.Imaging;
-
+using DJIVideoParser;
+using System.Threading.Tasks;
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace DJIWSDKDemo
@@ -25,128 +26,81 @@ namespace DJIWSDKDemo
     public sealed partial class MainPage : Page
     {
         private DJIVideoParser.Parser videoParser;
-        public WriteableBitmap VideoSource;
-        private byte[] decodedDataBuf;
-        private object bufLock = new object();
 
         public MainPage()
         {
             this.InitializeComponent();
             DJISDKManager.Instance.SDKRegistrationStateChanged += Instance_SDKRegistrationEvent;
-            //Replace with your registered App Key. Make sure your App Key matched your application's package name on DJI developer center.
-            DJISDKManager.Instance.RegisterApp("Please enter your App Key here.");
+            //Replace app key with the real key registered. Make sure that the key is matched with your application's package id.
+            DJISDKManager.Instance.RegisterApp("app key");
         }
-
+        //Callback of SDKRegistrationEvent
         private async void Instance_SDKRegistrationEvent(SDKRegistrationState state, SDKError resultCode)
         {
             if (resultCode == SDKError.NO_ERROR)
             {
                 System.Diagnostics.Debug.WriteLine("Register app successfully.");
 
-                //The product connection state will be updated when it changes here.
-                DJISDKManager.Instance.ComponentManager.GetProductHandler(0).ProductTypeChanged += async delegate (object sender, ProductTypeMsg? value)
+                //Must in UI thread
+                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
                 {
-                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
+                    //Raw data and decoded data listener
+                    if (videoParser == null)
                     {
-                        if (value != null && value?.value != ProductType.NONE)
+                        videoParser = new DJIVideoParser.Parser();
+                        videoParser.Initialize(delegate (byte[] data)
                         {
-                            System.Diagnostics.Debug.WriteLine("The Aircraft is connected now.");
-                            //You can load/display your pages according to the aircraft connection state here.
-                        }
-                        else
-                        {
-                            System.Diagnostics.Debug.WriteLine("The Aircraft is disconnected now.");
-                            //You can hide your pages according to the aircraft connection state here, or show the connection tips to the users.
-                        }
-                    });
-                };
-                
-                //If you want to get the latest product connection state manually, you can use the following code
-                var productType = (await DJISDKManager.Instance.ComponentManager.GetProductHandler(0).GetProductTypeAsync()).value;
-                if (productType != null && productType?.value != ProductType.NONE)
-                {
-                    System.Diagnostics.Debug.WriteLine("Aircraft is connected now.");
-                    //You can load/display your pages according to the aircraft connection state here.
-                }
+                            //Note: This function must be called because we need DJI Windows SDK to help us to parse frame data.
+                            return DJISDKManager.Instance.VideoFeeder.ParseAssitantDecodingInfo(0, data);
+                        });
+                        //Set the swapChainPanel to display and set the decoded data callback.
+                        videoParser.SetSurfaceAndVideoCallback(0, 0, swapChainPanel, ReceiveDecodedData);
+                        DJISDKManager.Instance.VideoFeeder.GetPrimaryVideoFeed(0).VideoDataUpdated += OnVideoPush;
+                    }
+                    //get the camera type and observe the CameraTypeChanged event.
+                    DJISDKManager.Instance.ComponentManager.GetCameraHandler(0, 0).CameraTypeChanged += OnCameraTypeChanged;
+                    var type = await DJISDKManager.Instance.ComponentManager.GetCameraHandler(0, 0).GetCameraTypeAsync();
+                    OnCameraTypeChanged(this, type.value);
+                });
 
-                //listen video receive data
-                if (videoParser == null)
-                {
-                    videoParser = new DJIVideoParser.Parser();
-                    videoParser.Initialize();
-                    videoParser.SetVideoDataCallack(0, 0, ReceiveDecodedData);
-                    DJISDKManager.Instance.VideoFeeder.GetPrimaryVideoFeed(0).VideoDataUpdated += OnVideoPush;
-                }
-
-                //listen camera work mode
-                DJISDKManager.Instance.ComponentManager.GetCameraHandler(0, 0).CameraWorkModeChanged += async delegate (object sender, CameraWorkModeMsg? value)
-                {
-                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
-                    {
-                        if (value != null)
-                        {
-                            ModeTB.Text = value.Value.value.ToString();
-                        }
-                    });
-                };
-
-                //listen video record time
-                DJISDKManager.Instance.ComponentManager.GetCameraHandler(0, 0).RecordingTimeChanged += async delegate (object sender, IntMsg? value)
-                {
-                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
-                    {
-                        if (value != null)
-                        {
-                            RecordTimeTB.Text = value.Value.value.ToString();
-                        }
-                    });
-                };
-
-            } else
+            }
+            else
             {
-                System.Diagnostics.Debug.WriteLine("Register SDK failed, the error is:");
+                System.Diagnostics.Debug.WriteLine("SDK register failed, the error is: ");
                 System.Diagnostics.Debug.WriteLine(resultCode.ToString());
             }
         }
 
         //raw data
-        void OnVideoPush(VideoFeed sender, [ReadOnlyArray] ref byte[] bytes)
+        void OnVideoPush(VideoFeed sender, byte[] bytes)
         {
             videoParser.PushVideoData(0, 0, bytes, bytes.Length);
         }
 
-        //decode data
+        //Decode data. Do nothing here. This function would return a bytes array with image data in RGBA format.
         async void ReceiveDecodedData(byte[] data, int width, int height)
         {
-            lock (bufLock)
+        }
+
+        //We need to set the camera type of the aircraft to the DJIVideoParser. After setting camera type, DJIVideoParser would correct the distortion of the video automatically.
+        private void OnCameraTypeChanged(object sender, CameraTypeMsg? value)
+        {
+            if (value != null)
             {
-                if (decodedDataBuf == null)
+                switch (value.Value.value)
                 {
-                    decodedDataBuf = data;
-                }
-                else
-                {
-                    if (data.Length != decodedDataBuf.Length)
-                    {
-                        Array.Resize(ref decodedDataBuf, data.Length);
-                    }
-                    data.CopyTo(decodedDataBuf.AsBuffer());
-                }
-            }
-            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-            {
-                if (VideoSource == null || VideoSource.PixelWidth != width || VideoSource.PixelHeight != height)
-                {
-                    VideoSource = new WriteableBitmap((int)width, (int)height);
-                    FPVImage.Source = VideoSource;
+                    case CameraType.MAVIC_2_ZOOM:
+                        this.videoParser.SetCameraSensor(AircraftCameraType.Mavic2Zoom);
+                        break;
+                    case CameraType.MAVIC_2_PRO:
+                        this.videoParser.SetCameraSensor(AircraftCameraType.Mavic2Pro);
+                        break;
+                    default:
+                        this.videoParser.SetCameraSensor(AircraftCameraType.Others);
+                        break;
                 }
 
-                lock (bufLock)
-                {
-                    decodedDataBuf.AsBuffer().CopyTo(VideoSource.PixelBuffer);
-                }
-                VideoSource.Invalidate();
-            });
+            }
         }
 
         private async void StartShootPhoto_Click(object sender, RoutedEventArgs e)
@@ -164,7 +118,7 @@ namespace DJIWSDKDemo
             }
             else
             {
-                OutputTB.Text = "The application hasn't been registered successfully yet.";
+                OutputTB.Text = "SDK hasn't been activated yet.";
             }
         }
 
@@ -184,7 +138,7 @@ namespace DJIWSDKDemo
             }
             else
             {
-                OutputTB.Text = "The application hasn't been registered successfully yet.";
+                OutputTB.Text = "SDK hasn't been activated yet.";
             }
         }
 
@@ -204,7 +158,7 @@ namespace DJIWSDKDemo
             }
             else
             {
-                OutputTB.Text = "The application hasn't been registered successfully yet.";
+                OutputTB.Text = "SDK hasn't been activated yet.";
             }
         }
 
@@ -234,7 +188,7 @@ namespace DJIWSDKDemo
             }
             else
             {
-                OutputTB.Text = "The application hasn't been registered successfully yet.";
+                OutputTB.Text = "SDK hasn't been activated yet.";
             }
         }
     }

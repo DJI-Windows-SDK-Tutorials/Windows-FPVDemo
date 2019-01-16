@@ -8,7 +8,7 @@ A demo to introduce how to implement the FPV view, take photo and record video u
 
 ## Requirements
 
- - DJI Windows SDK Public Beta 0.1.0
+ - DJI Windows SDK Public Beta 0.2.0
  - A device with Windows 10 (Version 1803 or higher)
  - Visual Studio 2017
  - Windows 10 SDK (Version 1803 or higher)

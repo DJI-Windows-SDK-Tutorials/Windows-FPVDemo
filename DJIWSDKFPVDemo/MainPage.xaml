@@ -32,8 +32,7 @@
                 <TextBlock Name="OutputTB"></TextBlock>
             </StackPanel>
         </Grid>
-        <Image x:Name="FPVImage" 
-               Stretch="UniformToFill"
-               Grid.Row="1"></Image>
+        <SwapChainPanel x:Name="swapChainPanel" 
+               Grid.Row="1"></SwapChainPanel>
     </Grid>
 </Page>

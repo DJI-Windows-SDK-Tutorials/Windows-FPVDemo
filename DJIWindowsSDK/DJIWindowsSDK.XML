@@ -346,6 +346,17 @@
             being recorded by the camera.
             </summary>
         </member>
+        <member name="M:DJI.WindowsSDK.Components.CameraHandler.GetCameraTypeAsync">
+            <summary>
+            Getter the camera type of the aircraft.
+            </summary>
+            <returns>A `Task&lt;ResultValue&lt;CameraTypeMsg?&gt;&gt;` object.</returns>
+        </member>
+        <member name="E:DJI.WindowsSDK.Components.CameraHandler.CameraTypeChanged">
+            <summary>
+            Subscribe the event to camera type changes of aircraft.
+            </summary>
+        </member>
         <member name="M:DJI.WindowsSDK.Components.CameraHandler.GetExposureModeAsync">
             <summary>
             Getter to check the exposure mode of the camera.
@@ -686,9 +697,9 @@
         <member name="M:DJI.WindowsSDK.Components.CameraHandler.SetWhiteBalanceAsync(DJI.WindowsSDK.CameraWhiteBalance)">
             <summary>
             Sets the camera's white balance. When the white balance is a preset value
-            (values except `MANUAL`),  the `colorTemperature` argument does not take effect.
-            When the white balance is `MANUAL`,  the `colorTemperature` value is used
-            instead.
+            (values except `MANUAL`),  the `int colorTemperature` argument does not take
+            effect. When the white balance is `MANUAL`,  the `int colorTemperature` value is
+            used instead.
             </summary>
             <param name="value">A parameter object of type CameraWhiteBalance.</param>
             <returns>A `Task&lt;SDKErrorCode&gt;` object.</returns>
@@ -738,6 +749,24 @@
             photos.
             </summary>
         </member>
+        <member name="M:DJI.WindowsSDK.Components.CameraHandler.GetVideoFileCompressionStandardAsync">
+            <summary>
+            Getter to get video file comression standard.
+            </summary>
+            <returns>A `Task&lt;ResultValue&lt;VideoFileCompressionStandardMsg?&gt;&gt;` object.</returns>
+        </member>
+        <member name="M:DJI.WindowsSDK.Components.CameraHandler.SetVideoFileCompressionStandardAsync(DJI.WindowsSDK.VideoFileCompressionStandardMsg)">
+            <summary>
+            Sets the video file comression standard of aircraft.
+            </summary>
+            <param name="value">A parameter object of type VideoFileCompressionStandardMsg.</param>
+            <returns>A `Task&lt;SDKErrorCode&gt;` object.</returns>
+        </member>
+        <member name="E:DJI.WindowsSDK.Components.CameraHandler.VideoFileCompressionStandardChanged">
+            <summary>
+            Subscribe the event to video file comression standard changes.
+            </summary>
+        </member>
         <member name="M:DJI.WindowsSDK.Components.CameraHandler.GetShootPhotoModeAsync">
             <summary>
             Gets the photo shooting mode for the camera.
@@ -781,6 +810,17 @@
             taking the photo once the individual photo is taken.
             </summary>
             <returns>A `Task&lt;SDKErrorCode&gt;` object.</returns>
+        </member>
+        <member name="M:DJI.WindowsSDK.Components.CameraHandler.GetCameraColorRangeAsync">
+            <summary>
+            Getter the camera color of the camera.
+            </summary>
+            <returns>A `Task&lt;ResultValue&lt;CameraColorRangeMsg?&gt;&gt;` object.</returns>
+        </member>
+        <member name="E:DJI.WindowsSDK.Components.CameraHandler.CameraColorRangeChanged">
+            <summary>
+            Subscribe the event to camera color changes of camera.
+            </summary>
         </member>
         <member name="M:DJI.WindowsSDK.Components.CameraHandler.FormatStorageAsync(DJI.WindowsSDK.CameraStorageLocationMsg)">
             <summary>
@@ -835,97 +875,6 @@
             The destructor. It should not be called explicitly.
             </summary>
         </member>
-        <member name="M:DJI.WindowsSDK.Components.FlightAssistantHandler.StartAlignedPushDataAsync">
-            <summary>
-            Starts the aligned push data from the flight assistant. Receives the push data
-            from `DoublePoint3DChangedEventHandler` and `AttitudeChangedEventHandler`.
-            </summary>
-            <returns>A `Task&lt;SDKErrorCode&gt;` object.</returns>
-        </member>
-        <member name="M:DJI.WindowsSDK.Components.FlightAssistantHandler.StopAlignedPushDataAsync">
-            <summary>
-            Stops the aligned push data from the flight assistant.
-            </summary>
-            <returns>A `Task&lt;SDKErrorCode&gt;` object.</returns>
-        </member>
-        <member name="M:DJI.WindowsSDK.Components.FlightAssistantHandler.GetAlignedPushDataStartedAsync">
-            <summary>
-            Determines if the aligned push data is started.
-            </summary>
-            <returns>A `Task&lt;ResultValue&lt;BoolMsg?&gt;&gt;` object.</returns>
-        </member>
-        <member name="E:DJI.WindowsSDK.Components.FlightAssistantHandler.AlignedPushDataStartedChanged">
-            <summary>
-            Subscribe the event to receive changes about whether the aligned push data is
-            started.
-            </summary>
-        </member>
-        <member name="M:DJI.WindowsSDK.Components.FlightAssistantHandler.GetAlignedAircraftLocationAsync">
-            <summary>
-            Gets the aircraft location in a local coordinate (N-E-G). The origin point is
-            the takeoff location.  The aircraft's location from the flight assistant is
-            aligned with the gimbal attitude from `GetAlignedGimbalAttitudeAsync`,  which
-            means that the flight controller will try to synchronize them based on the
-            internal clock and pushes them to SDK at the  same time. This is only valid when
-            `GetAlignedPushDataStartedAsync` is true. Start the push data by calling
-            `StartAlignedPushDataAsync`.
-             CAUTION: starting the push data may consume the bandwidth. Use it only when
-            necessary.
-            </summary>
-            <returns>A `Task&lt;ResultValue&lt;DoublePoint3D?&gt;&gt;` object.</returns>
-        </member>
-        <member name="E:DJI.WindowsSDK.Components.FlightAssistantHandler.AlignedAircraftLocationChanged">
-            <summary>
-            Subscribe the event to receive changes of the aircraft location in a local
-            coordinate (N-E-G). The origin point is the takeoff location.  The aircraft's
-            location from the flight assistant is aligned with the gimbal attitude from
-            `GetAlignedGimbalAttitudeAsync`,  which means that the flight controller will
-            try to synchronize them based on the internal clock and pushes them to SDK at
-            the  same time. This is only valid when `GetAlignedPushDataStartedAsync` is
-            true. Start the push data by calling `StartAlignedPushDataAsync`.
-             CAUTION: starting the push data may consume the bandwidth. Use it only when
-            necessary.
-            </summary>
-        </member>
-        <member name="M:DJI.WindowsSDK.Components.FlightAssistantHandler.GetAlignedGimbalAttitudeAsync">
-            <summary>
-            Gets the gimbal attitude aligned by the flight assistant.  Different from the
-            attitude updated by the gimbal, the gimbal attitude from the flight assistant is
-            aligned with  the location from `GetAlignedAircraftLocationAsync`, which means
-            that the flight controller will try to synchronize  them based on the internal
-            clock and pushes them to SDK at the same time. This is only valid when
-            `GetAlignedPushDataStartedAsync`  is true. Start the push data by calling
-            `StartAlignedPushDataAsync`.
-             CAUTION: starting the push data may consume the bandwidth. Use it only when
-            necessary.
-            </summary>
-            <returns>A `Task&lt;ResultValue&lt;Attitude?&gt;&gt;` object.</returns>
-        </member>
-        <member name="E:DJI.WindowsSDK.Components.FlightAssistantHandler.AlignedGimbalAttitudeChanged">
-            <summary>
-            Subscribe the event to receive changes of the gimbal attitude aligned by the
-            flight assistant. Different from the attitude updated by the gimbal,  the gimbal
-            attitude from the flight assistant is aligned with the location from
-            `GetAlignedAircraftLocationAsync`, which means that the flight controller will
-            try to synchronize them based on the internal clock and pushes them to SDK at
-            the same time.  This is only valid when `GetAlignedPushDataStartedAsync` is
-            true. Start the push data by calling `StartAlignedPushDataAsync`.
-             CAUTION: starting the push data may consume the bandwidth. Use it only when
-            necessary.
-            </summary>
-        </member>
-        <member name="M:DJI.WindowsSDK.Components.FlightAssistantHandler.GetFlightAssistantIsSensorBeingUsedAsync">
-            <summary>
-            Determines if the vision sensor is working.
-            </summary>
-            <returns>A `Task&lt;ResultValue&lt;BoolMsg?&gt;&gt;` object.</returns>
-        </member>
-        <member name="E:DJI.WindowsSDK.Components.FlightAssistantHandler.FlightAssistantIsSensorBeingUsedChanged">
-            <summary>
-            Subscribe the event to receive changes about whether the vision sensor is
-            working..
-            </summary>
-        </member>
         <member name="M:DJI.WindowsSDK.Components.FlightAssistantHandler.GetIsBrakingAsync">
             <summary>
             Determines if the aircraft is braking automatically to avoid collision
@@ -936,19 +885,6 @@
             <summary>
             Subscribe the event to receive changes about whether the aircraft is braking
             automatically to avoid collision.
-            </summary>
-        </member>
-        <member name="M:DJI.WindowsSDK.Components.FlightAssistantHandler.GetVisionSystemWarningAsync">
-            <summary>
-            Gets the distance warning returned by the vision system. Warning Level 4 is the
-            most serious level.
-            </summary>
-            <returns>A `Task&lt;ResultValue&lt;VisionSystemWarningMsg?&gt;&gt;` object.</returns>
-        </member>
-        <member name="E:DJI.WindowsSDK.Components.FlightAssistantHandler.VisionSystemWarningChanged">
-            <summary>
-            Subscribe the event to receive changes of the distance warning returned by the
-            vision system. Warning Level 4 is the most serious level.
             </summary>
         </member>
         <member name="M:DJI.WindowsSDK.Components.FlightAssistantHandler.GetRTHObstacleAvoidanceEnabledAsync">
@@ -997,48 +933,6 @@
             is enabled.
             </summary>
         </member>
-        <member name="M:DJI.WindowsSDK.Components.FlightAssistantHandler.GetActiveObstacleAvoidanceEnabledAsync">
-            <summary>
-            Determines if active obstacle avoidance is enabled. When enabled, and an
-            obstacle is moving toward the aircraft,  the aircraft will actively fly away
-            from it. If while actively avoiding a moving obstacle, the aircraft detects
-            another obstacle in its avoidance path, it will stop.
-            </summary>
-            <returns>A `Task&lt;ResultValue&lt;BoolMsg?&gt;&gt;` object.</returns>
-        </member>
-        <member name="M:DJI.WindowsSDK.Components.FlightAssistantHandler.SetActiveObstacleAvoidanceEnabledAsync(DJI.WindowsSDK.BoolMsg)">
-            <summary>
-            Enables/disables active obstacle avoidance. When enabled, and an obstacle is
-            moving toward the aircraft,  the aircraft will actively fly away from it. If
-            while actively avoiding a moving obstacle, the aircraft detects  another
-            obstacle in its avoidance path, it will stop. `SetObstacleAvoidanceEnabledAsync`
-            must also be enabled.
-            </summary>
-            <param name="value">A parameter object of type BoolMsg.</param>
-            <returns>A `Task&lt;SDKErrorCode&gt;` object.</returns>
-        </member>
-        <member name="E:DJI.WindowsSDK.Components.FlightAssistantHandler.ActiveObstacleAvoidanceEnabledChanged">
-            <summary>
-            Subscribe the event to receive the change about whether active obstacle
-            avoidance is enabled. When enabled,  and an obstacle is moving toward the
-            aircraft, the aircraft will actively fly away from it. If while  actively
-            avoiding a moving obstacle, the aircraft detects another obstacle in its
-            avoidance path, it will stop.
-            </summary>
-        </member>
-        <member name="M:DJI.WindowsSDK.Components.FlightAssistantHandler.GetIsActivelyAvoidingObstacleAsync">
-            <summary>
-            Determines if the aircraft is avoiding collision from an obstacle moving towards
-            the aircraft.
-            </summary>
-            <returns>A `Task&lt;ResultValue&lt;BoolMsg?&gt;&gt;` object.</returns>
-        </member>
-        <member name="E:DJI.WindowsSDK.Components.FlightAssistantHandler.IsActivelyAvoidingObstacleChanged">
-            <summary>
-            Subscribe the event to receive changes about whether the aircraft is avoiding
-            collision from an obstacle moving towards the aircraft.
-            </summary>
-        </member>
         <member name="M:DJI.WindowsSDK.Components.FlightAssistantHandler.GetVisionAssistedPositioningEnabledAsync">
             <summary>
             Determines if vision positioning is enabled. Vision positioning is used to
@@ -1085,6 +979,99 @@
             <param name="value">A parameter object of type BoolMsg.</param>
             <returns>A `Task&lt;SDKErrorCode&gt;` object.</returns>
         </member>
+        <member name="E:DJI.WindowsSDK.Components.FlightAssistantHandler.PrecisionLandingEnabledChanged">
+            <summary>
+            Subscribe the event to receive the change about whether precision landing is
+            enabled.
+            </summary>
+        </member>
+        <member name="M:DJI.WindowsSDK.Components.FlightAssistantHandler.GetIsPerformingPrecisionLandingAsync">
+            <summary>
+            Determines if the aircraft is performing precision landing.
+            </summary>
+            <returns>A `Task&lt;ResultValue&lt;BoolMsg?&gt;&gt;` object.</returns>
+        </member>
+        <member name="E:DJI.WindowsSDK.Components.FlightAssistantHandler.IsPerformingPrecisionLandingChanged">
+            <summary>
+            Subscribe the event to receive the change about if the aircraft is perfoming
+            precision landing.
+            </summary>
+        </member>
+        <member name="M:DJI.WindowsSDK.Components.FlightAssistantHandler.GetIsAscentLimitedByObstacleAsync">
+            <summary>
+            Determines if the aircraft's ascent is limited by obstacle.  True if the
+            aircraft will not ascend further because of an obstacle detected within 1m above
+            it.
+            </summary>
+            <returns>A `Task&lt;ResultValue&lt;BoolMsg?&gt;&gt;` object.</returns>
+        </member>
+        <member name="E:DJI.WindowsSDK.Components.FlightAssistantHandler.IsAscentLimitedByObstacleChanged">
+            <summary>
+            Subscribe the event to receive the change about is the aircraft's ascent limited
+            by obstacle. True if the aircraft will not ascend further because of an obstacle
+            detected within 1m above it.
+            </summary>
+        </member>
+        <member name="M:DJI.WindowsSDK.Components.FlightAssistantHandler.GetAdvancedPilotAssistanceSystemEnableAsync">
+            <summary>
+            Determines whether the Advanced Pilot Assistance System (APAS) is enabled or
+            not. When APAS is enabled, the aircraft continues to respond to user commands
+            and plans its path according to both control stick inputs and the flight
+            environment. APAS makes it easier to avoid obstacles and obtain smoother
+            footage, and gives a better fly experiences. It is only supported by Mavic Air.
+            </summary>
+            <returns>A `Task&lt;ResultValue&lt;BoolMsg?&gt;&gt;` object.</returns>
+        </member>
+        <member name="M:DJI.WindowsSDK.Components.FlightAssistantHandler.SetAdvancedPilotAssistanceSystemEnableAsync(DJI.WindowsSDK.BoolMsg)">
+            <summary>
+            Enables the Advanced Pilot Assistance System (APAS). When APAS is enabled, the
+            aircraft continues to respond to user commands and plans its path according to
+            both control stick inputs and the flight environment. APAS makes it easier to
+            avoid obstacles and obtain smoother footage, and gives a better fly experiences.
+            It is only valid when the aircraft is in P-mode. It is supported by Mavic Air
+            and Mavic 2 Series.
+            </summary>
+            <param name="value">A parameter object of type BoolMsg.</param>
+            <returns>A `Task&lt;SDKErrorCode&gt;` object.</returns>
+        </member>
+        <member name="E:DJI.WindowsSDK.Components.FlightAssistantHandler.AdvancedPilotAssistanceSystemEnableChanged">
+            <summary>
+            Subscribe event to receive the change about whether the Advanced Pilot
+            Assistance System (APAS) is enabled or not. When APAS is enabled, the aircraft
+            continues to respond to user commands and plans its path according to both
+            control stick inputs and the flight environment. APAS makes it easier to avoid
+            obstacles and obtain smoother footage, and gives a better fly experiences. It is
+            only valid when the aircraft is in P-mode. It is supported by Mavic Air and
+            Mavic 2 Series.
+            </summary>
+        </member>
+        <member name="M:DJI.WindowsSDK.Components.FlightAssistantHandler.GetIsAdvancedPilotAssistanceSystemActiveAsync">
+            <summary>
+            Determines if Advanced Pilot Assistance System (APAS) is active. When it is
+            active, the aircraft will change flight path automatically to avoid obstacles.
+            </summary>
+            <returns>A `Task&lt;ResultValue&lt;BoolMsg?&gt;&gt;` object.</returns>
+        </member>
+        <member name="E:DJI.WindowsSDK.Components.FlightAssistantHandler.IsAdvancedPilotAssistanceSystemActiveChanged">
+            <summary>
+            Subscribe event to receive the change about whether the Advanced Pilot
+            Assistance System (APAS) is active. When it is active, the aircraft will change
+            flight path automatically to avoid obstacles.
+            </summary>
+        </member>
+        <member name="M:DJI.WindowsSDK.Components.FlightAssistantHandler.GetLandingProtectionStateAsync">
+            <summary>
+            Get the state of landing protection. This status is valid when landing
+            protection is enabled.
+            </summary>
+            <returns>A `Task&lt;ResultValue&lt;LandingProtectionStateMsg?&gt;&gt;` object.</returns>
+        </member>
+        <member name="E:DJI.WindowsSDK.Components.FlightAssistantHandler.LandingProtectionStateChanged">
+            <summary>
+            Subscribe event to receive the change about the state of landing protection.
+            This status is valid when landing protection is enabled.
+            </summary>
+        </member>
         <member name="M:DJI.WindowsSDK.Components.FlightAssistantHandler.GetLandingProtectionEnabledAsync">
             <summary>
             Determines if landing protection is enabled. During auto-landing, the downwards
@@ -1111,6 +1098,47 @@
             the ground surface is flat enough for a safe landing. If it is not and landing
             protection  is enabled, then landing will abort and need to be manually
             performed by the user.
+            </summary>
+        </member>
+        <member name="M:DJI.WindowsSDK.Components.FlightAssistantHandler.GetVissionDetectionStateAsync">
+            <summary>
+            Get the state of vision detection.
+            </summary>
+            <returns>A `Task&lt;ResultValue&lt;LandingProtectionStateMsg?&gt;&gt;` object.</returns>
+        </member>
+        <member name="E:DJI.WindowsSDK.Components.FlightAssistantHandler.VissionDetectionStateChanged">
+            <summary>
+            Subscribe event to receive the change about the state of vision detection.
+            </summary>
+        </member>
+        <member name="M:DJI.WindowsSDK.Components.FlightAssistantHandler.GetUpwardsAvoidanceEnableAsync">
+            <summary>
+            Determines if upward avoidance is enabled. When the aircraft's upwards-facing
+            infrared sensor detects an obstacle, the aircraft will slow its ascent and
+            maintain a minimum distance of 1 meter from the obstacle. The sensor has a
+            10-degree horizontal field of view (FOV) and 10-degree vertical FOV. The maximum
+            detection distance is 5m.
+            </summary>
+            <returns>A `Task&lt;ResultValue&lt;BoolMsg?&gt;&gt;` object.</returns>
+        </member>
+        <member name="M:DJI.WindowsSDK.Components.FlightAssistantHandler.SetUpwardsAvoidanceEnableAsync(DJI.WindowsSDK.BoolMsg)">
+            <summary>
+            Enables/disables upward avoidance. When the aircraft's upwards-facing infrared
+            sensor detects an obstacle, the aircraft will slow its ascent and maintain a
+            minimum distance of 1 meter from the obstacle. The sensor has a 10-degree
+            horizontal field of view (FOV) and 10-degree vertical FOV. The maximum detection
+            distance is 5m.
+            </summary>
+            <param name="value">A parameter object of type BoolMsg.</param>
+            <returns>A `Task&lt;SDKErrorCode&gt;` object.</returns>
+        </member>
+        <member name="E:DJI.WindowsSDK.Components.FlightAssistantHandler.UpwardsAvoidanceEnableChanged">
+            <summary>
+            Subscribe event to receive the change about whether upward avoidance is enable.
+            When the aircraft's upwards-facing infrared sensor detects an obstacle, the
+            aircraft will slow its ascent and maintain a minimum distance of 1 meter from
+            the obstacle. The sensor has a 10-degree horizontal field of view (FOV) and
+            10-degree vertical FOV. The maximum detection distance is 5m.
             </summary>
         </member>
         <member name="M:DJI.WindowsSDK.Components.FlightAssistantHandler.GetConnectionAsync">
@@ -1646,6 +1674,21 @@
             </summary>
             <returns>A `Task&lt;SDKErrorCode&gt;` object.</returns>
         </member>
+        <member name="M:DJI.WindowsSDK.Components.FlightControllerHandler.GetIMUStateFetchEnableAsync">
+            <summary>
+            Determines if DJI Windows SDK would keep fetching IMU state from the aircraft
+            using timer.
+            </summary>
+            <returns>A `Task&lt;ResultValue&lt;BoolMsg?&gt;&gt;` object.</returns>
+        </member>
+        <member name="M:DJI.WindowsSDK.Components.FlightControllerHandler.SetIMUStateFetchEnableAsync(DJI.WindowsSDK.BoolMsg)">
+            <summary>
+            Enables/disables DJI Windows SDK to keep fetching IMU state from the aircraft
+            using timer.
+            </summary>
+            <param name="value">A parameter object of type BoolMsg.</param>
+            <returns>A `Task&lt;SDKErrorCode&gt;` object.</returns>
+        </member>
         <member name="M:DJI.WindowsSDK.Components.FlightControllerHandler.GetIsLandingConfirmationNeededAsync">
             <summary>
             Determines if the clearance between the aircraft and the ground is less than
@@ -2106,6 +2149,40 @@
             <param name="value">A parameter object of type BoolMsg.</param>
             <returns>A `Task&lt;SDKErrorCode&gt;` object.</returns>
         </member>
+        <member name="M:DJI.WindowsSDK.Components.FlightControllerHandler.GetIMUStateAsync">
+            <summary>
+            Get the state of IMU.
+            </summary>
+            <returns>A `Task&lt;ResultValue&lt;IMUState?&gt;&gt;` object.</returns>
+        </member>
+        <member name="E:DJI.WindowsSDK.Components.FlightControllerHandler.IMUStateChanged">
+            <summary>
+            Subscribe event to receive the change about the IMU state.
+            </summary>
+        </member>
+        <member name="M:DJI.WindowsSDK.Components.FlightControllerHandler.GetIMUCountAsync">
+            <summary>
+            Get the count of IMUs.
+            </summary>
+            <returns>A `Task&lt;ResultValue&lt;IntMsg?&gt;&gt;` object.</returns>
+        </member>
+        <member name="E:DJI.WindowsSDK.Components.FlightControllerHandler.IMUCountChanged">
+            <summary>
+            Subscribe event to receive the change about the count of IMUs.
+            </summary>
+        </member>
+        <member name="M:DJI.WindowsSDK.Components.FlightControllerHandler.GetGoHomeAssessmentAsync">
+            <summary>
+            Get the aircraft's smart go home data if smart go home is enabled.
+            </summary>
+            <returns>A `Task&lt;ResultValue&lt;GoHomeAssessmentValue?&gt;&gt;` object.</returns>
+        </member>
+        <member name="E:DJI.WindowsSDK.Components.FlightControllerHandler.GoHomeAssessmentChanged">
+            <summary>
+            Subscribe event to receive the change about the aircraft's smart go home data if
+            smart go home is enabled.
+            </summary>
+        </member>
         <member name="M:DJI.WindowsSDK.Components.FlightControllerHandler.GetConnectionAsync">
             <summary>
             Determines if a component is connected or not.
@@ -2419,18 +2496,6 @@
             down. Not available now.
             </summary>
         </member>
-        <member name="M:DJI.WindowsSDK.Components.RemoteControllerHandler.GetRCTransformationSwitchStateAsync">
-            <summary>
-            Gets the state of the remote controller's transformation switch.
-            </summary>
-            <returns>A `Task&lt;ResultValue&lt;RCTransformationSwitchStateMsg?&gt;&gt;` object.</returns>
-        </member>
-        <member name="E:DJI.WindowsSDK.Components.RemoteControllerHandler.RCTransformationSwitchStateChanged">
-            <summary>
-            Subscribe the event to receive changes of the remote controller's transformation
-            switch.
-            </summary>
-        </member>
         <member name="M:DJI.WindowsSDK.Components.RemoteControllerHandler.GetRCFlightModeSwitchStateAsync">
             <summary>
             Gets the state of the remote controller's flight mode switch.
@@ -2499,40 +2564,6 @@
         <member name="E:DJI.WindowsSDK.Components.RemoteControllerHandler.RCCustomButton2DownChanged">
             <summary>
             Subscribe the event to receive changes about whether the C2 button is push down.
-            </summary>
-        </member>
-        <member name="M:DJI.WindowsSDK.Components.RemoteControllerHandler.GetRCCustomButton3DownAsync">
-            <summary>
-            Determines if the C3 button is push down.
-            </summary>
-            <returns>A `Task&lt;ResultValue&lt;BoolMsg?&gt;&gt;` object.</returns>
-        </member>
-        <member name="E:DJI.WindowsSDK.Components.RemoteControllerHandler.RCCustomButton3DownChanged">
-            <summary>
-            Subscribe the event to receive changes about whether the C3 button is push down.
-            </summary>
-        </member>
-        <member name="M:DJI.WindowsSDK.Components.RemoteControllerHandler.GetRCCustomButton4DownAsync">
-            <summary>
-            Determines if the C4 button is push down.
-            </summary>
-            <returns>A `Task&lt;ResultValue&lt;BoolMsg?&gt;&gt;` object.</returns>
-        </member>
-        <member name="E:DJI.WindowsSDK.Components.RemoteControllerHandler.RCCustomButton4DownChanged">
-            <summary>
-            Subscribe the event to receive changes about whether the C4 button is push down.
-            </summary>
-        </member>
-        <member name="M:DJI.WindowsSDK.Components.RemoteControllerHandler.GetRCPlaybackButtonDownAsync">
-            <summary>
-            Determines if the playback button is push down.
-            </summary>
-            <returns>A `Task&lt;ResultValue&lt;BoolMsg?&gt;&gt;` object.</returns>
-        </member>
-        <member name="E:DJI.WindowsSDK.Components.RemoteControllerHandler.RCPlaybackButtonDownChanged">
-            <summary>
-            Subscribe the event to receive changes about whether the playback button is push
-            down.
             </summary>
         </member>
         <member name="M:DJI.WindowsSDK.Components.RemoteControllerHandler.GetRCPauseButtonDownAsync">
@@ -2781,6 +2812,34 @@
             Unknown.
             </summary>
         </member>
+        <member name="T:DJI.WindowsSDK.AppActivationState">
+            <summary>
+            The App Activation state.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.AppActivationState.NOT_SUPPORTED">
+            <summary>
+            The aircraft's firmware does not support the App Activation System.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.AppActivationState.LOGIN_REQUIRED">
+            <summary>
+            The application needs to be activated by the user through their DJI account. Use
+            `UserAccountManager` to enable the user to log in. Log in is only required if
+            the aircraft is located in China.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.AppActivationState.ACTIVATED">
+            <summary>
+            The application is activated and flight restrictions turned off.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.AppActivationState.UNKNOWN">
+            <summary>
+            Either the aircraft is disconnected or the connected product is not a DJI
+            aircraft.
+            </summary>
+        </member>
         <member name="T:DJI.WindowsSDK.DJISDKManager">
             <summary>
             This class is the entry point for using the SDK with a DJI product. Most
@@ -2801,6 +2860,26 @@
         <member name="E:DJI.WindowsSDK.DJISDKManager.SDKRegistrationStateChanged">
             <summary>
             Subscribe the event to receive the change of SDK registration state.
+            </summary>
+        </member>
+        <member name="T:DJI.WindowsSDK.DJISDKManager.AppActivationStateChangedEventHandler">
+            <summary>
+            Delegate type that use to subscribe the App Activation state.
+            </summary>
+        </member>
+        <member name="E:DJI.WindowsSDK.DJISDKManager.AppActivationStateChanged">
+            <summary>
+            Subscribe the event to receive the change of App ActivationState state.
+            </summary>
+        </member>
+        <member name="T:DJI.WindowsSDK.DJISDKManager.AircraftBindingStateChangedEventHandler">
+            <summary>
+            Delegate type that use to subscribe the aircraft binding state.
+            </summary>
+        </member>
+        <member name="E:DJI.WindowsSDK.DJISDKManager.AircraftBindingStateChanged">
+            <summary>
+            Subscribe the event to receive the change of Aircraft Binding State state.
             </summary>
         </member>
         <member name="M:DJI.WindowsSDK.DJISDKManager.Finalize">
@@ -2884,6 +2963,35 @@
             </summary>
             <returns>Return `NO_ERROR` if SDK is registered.</returns>
         </member>
+        <member name="M:DJI.WindowsSDK.DJISDKManager.EnableDebugLogSystem">
+            <summary>
+            Enables the debug log system. It will enable the DJI Windows SDK to collect logs
+            that are related to the SDK's internal logic.  These logs can be used to help
+            diagnose SDK bugs. The debug log system is disabled by default.  The developer
+            can call this method in each life cycle of the application to enable the log
+            system. The logs will be saved to directory named logs. The logs are under the
+            application's local folder.
+            </summary>
+            <returns>Return <code>true</code> if SDK has been registered.</returns>
+        </member>
+        <member name="M:DJI.WindowsSDK.DJISDKManager.DisableDebugLogSystem">
+            <summary>
+            Disables the debug log system.
+            </summary>
+            <returns>Return <code>true</code> if SDK has been registered.</returns>
+        </member>
+        <member name="P:DJI.WindowsSDK.DJISDKManager.aircraftBindindState">
+            <summary>
+            Current Aircraft binding state.
+            </summary>
+            <returns>A string object.</returns>
+        </member>
+        <member name="P:DJI.WindowsSDK.DJISDKManager.appActivationState">
+            <summary>
+            Current App Activation state.
+            </summary>
+            <returns>A string object.</returns>
+        </member>
         <member name="T:DJI.WindowsSDK.SDKError">
             <summary>
             Error codes that represents errors that may occur when using SDK.
@@ -2959,6 +3067,11 @@
         <member name="F:DJI.WindowsSDK.SDKError.INVALID_REQUEST_IN_CURRENT_STATE">
             <summary>
             The request is invalid in the current state.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.SDKError.EXECUTION_FAILED">
+            <summary>
+            The execution is failed.
             </summary>
         </member>
         <member name="F:DJI.WindowsSDK.SDKError.MISSION_WAYPOINT_NULL_MISSION">
@@ -4319,7 +4432,7 @@
             during the previous upload, the upload operation will resume from the previous
             break-point. After a mission is uploaded successfully, the `GetCurrentState`
             will become `READY_TO_EXECUTE`.The upload progress will be notify by
-            `UploadStateChangedEventHandler` .
+            `UploadStateChanged` .
             </summary>
             <returns>The operation error code</returns>
         </member>
@@ -4344,7 +4457,7 @@
             the manager will download the information of waypoints missing in
             `GetLoadedMission` one-by-one in ascending order. It can only be called when the
             `GetCurrentState` is one of the following: - `EXECUTING` - `EXECUTE_PAUSED`,The
-            download progress will be notify by `DownloadStateChangedEventHandler` .
+            download progress will be notify by `DownloadStateChanged` .
             </summary>
             <returns>The operation error code</returns>
         </member>
@@ -4553,6 +4666,14 @@
             The execution result value. It is `null` if the request fails.
             </summary>
         </member>
+        <member name="T:DJI.WindowsSDK.LandingProtectionStateMsgChangedEventHandler">
+            <summary>
+            A delegate type used to subscribe the updated values in type
+            `LandingProtectionStateMsg`.
+            </summary>
+            <param name="sender">The sender of the event.</param>
+            <param name="value">The updated value.</param>
+        </member>
         <member name="T:DJI.WindowsSDK.GimbalCalibrationStateChangedEventHandler">
             <summary>
             A delegate type used to subscribe the updated values in type
@@ -4564,6 +4685,14 @@
         <member name="T:DJI.WindowsSDK.FCGoHomeStateMsgChangedEventHandler">
             <summary>
             A delegate type used to subscribe the updated values in type `FCGoHomeStateMsg`.
+            </summary>
+            <param name="sender">The sender of the event.</param>
+            <param name="value">The updated value.</param>
+        </member>
+        <member name="T:DJI.WindowsSDK.CameraShootPhotoModeMsgChangedEventHandler">
+            <summary>
+            A delegate type used to subscribe the updated values in type
+            `CameraShootPhotoModeMsg`.
             </summary>
             <param name="sender">The sender of the event.</param>
             <param name="value">The updated value.</param>
@@ -4583,14 +4712,6 @@
             <param name="sender">The sender of the event.</param>
             <param name="value">The updated value.</param>
         </member>
-        <member name="T:DJI.WindowsSDK.RCTransformationSwitchStateMsgChangedEventHandler">
-            <summary>
-            A delegate type used to subscribe the updated values in type
-            `RCTransformationSwitchStateMsg`.
-            </summary>
-            <param name="sender">The sender of the event.</param>
-            <param name="value">The updated value.</param>
-        </member>
         <member name="T:DJI.WindowsSDK.CameraAntiFlickerMsgChangedEventHandler">
             <summary>
             A delegate type used to subscribe the updated values in type
@@ -4599,9 +4720,10 @@
             <param name="sender">The sender of the event.</param>
             <param name="value">The updated value.</param>
         </member>
-        <member name="T:DJI.WindowsSDK.DoublePoint3DChangedEventHandler">
+        <member name="T:DJI.WindowsSDK.CameraColorRangeMsgChangedEventHandler">
             <summary>
-            A delegate type used to subscribe the updated values in type `DoublePoint3D`.
+            A delegate type used to subscribe the updated values in type
+            <code>Value_CameraColorRangeMsgChanged</code>.
             </summary>
             <param name="sender">The sender of the event.</param>
             <param name="value">The updated value.</param>
@@ -4667,10 +4789,10 @@
             <param name="sender">The sender of the event.</param>
             <param name="value">The updated value.</param>
         </member>
-        <member name="T:DJI.WindowsSDK.CameraShootPhotoModeMsgChangedEventHandler">
+        <member name="T:DJI.WindowsSDK.CameraTypeMsgChangedEventHandler">
             <summary>
             A delegate type used to subscribe the updated values in type
-            `CameraShootPhotoModeMsg`.
+            <code>Value_CameraTypeMsgChanged</code>.
             </summary>
             <param name="sender">The sender of the event.</param>
             <param name="value">The updated value.</param>
@@ -4721,10 +4843,10 @@
             <param name="sender">The sender of the event.</param>
             <param name="value">The updated value.</param>
         </member>
-        <member name="T:DJI.WindowsSDK.VisionSystemWarningMsgChangedEventHandler">
+        <member name="T:DJI.WindowsSDK.VissionDetectionStateChangedEventHandler">
             <summary>
             A delegate type used to subscribe the updated values in type
-            `VisionSystemWarningMsg`.
+            <code>Value_VissionDetectionStateChanged</code>.
             </summary>
             <param name="sender">The sender of the event.</param>
             <param name="value">The updated value.</param>
@@ -4776,6 +4898,14 @@
             <param name="sender">The sender of the event.</param>
             <param name="value">The updated value.</param>
         </member>
+        <member name="T:DJI.WindowsSDK.VideoFileCompressionStandardMsgChangedEventHandler">
+            <summary>
+            A delegate type used to subscribe the updated values in type
+            <code>Value_VideoFileCompressionStandardMsgChanged</code>.
+            </summary>
+            <param name="sender">The sender of the event.</param>
+            <param name="value">The updated value.</param>
+        </member>
         <member name="T:DJI.WindowsSDK.Velocity3DChangedEventHandler">
             <summary>
             A delegate type used to subscribe the updated values in type `Velocity3D`.
@@ -4793,6 +4923,14 @@
         <member name="T:DJI.WindowsSDK.FCWindWarningMsgChangedEventHandler">
             <summary>
             A delegate type used to subscribe the updated values in type `FCWindWarningMsg`.
+            </summary>
+            <param name="sender">The sender of the event.</param>
+            <param name="value">The updated value.</param>
+        </member>
+        <member name="T:DJI.WindowsSDK.IMUStateChangedEventHandler">
+            <summary>
+            A delegate type used to subscribe the updated values in type
+            <code>Value_IMUStateChanged</code>.
             </summary>
             <param name="sender">The sender of the event.</param>
             <param name="value">The updated value.</param>
@@ -4831,6 +4969,14 @@
             <summary>
             A delegate type used to subscribe the updated values in type
             `VideoResolutionAndFrameRate`.
+            </summary>
+            <param name="sender">The sender of the event.</param>
+            <param name="value">The updated value.</param>
+        </member>
+        <member name="T:DJI.WindowsSDK.GoHomeAssessmentValueChangedEventHandler">
+            <summary>
+            A delegate type used to subscribe the updated values in type
+            <code>Value_GoHomeAssessmentValueChanged</code>.
             </summary>
             <param name="sender">The sender of the event.</param>
             <param name="value">The updated value.</param>
@@ -4929,6 +5075,36 @@
             </summary>
         </member>
         <member name="F:DJI.WindowsSDK.CameraFocusMode.UNKNOWN">
+            <summary>
+            Unknown.
+            </summary>
+        </member>
+        <member name="T:DJI.WindowsSDK.CameraType">
+            <summary>
+            Camera type of the device.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.CameraType.MAVIC_AIR_CAMERA">
+            <summary>
+            The camera of mavic air.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.CameraType.MAVIC_2_ZOOM">
+            <summary>
+            The camera of mavic 2 zoom.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.CameraType.P4P_V2_CAMERA">
+            <summary>
+            The camera of p4p.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.CameraType.MAVIC_2_PRO">
+            <summary>
+            The camera of mavic 2 pro.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.CameraType.UNKNOWN">
             <summary>
             Unknown.
             </summary>
@@ -5509,6 +5685,11 @@
             user should adjust either the license or the frame rate.
             </summary>
         </member>
+        <member name="F:DJI.WindowsSDK.VideoResolution.RESOLUTION_2688x1512">
+            <summary>
+            The camera's video resolution is 2688x1512.
+            </summary>
+        </member>
         <member name="F:DJI.WindowsSDK.VideoResolution.UNKNOWN">
             <summary>
             Unknown.
@@ -5644,6 +5825,11 @@
             The camera's anti-flicker is 50 Hz.
             </summary>
         </member>
+        <member name="F:DJI.WindowsSDK.CameraAntiFlicker.ANTI_FLICKER_OFF">
+            <summary>
+            The camera's anti-flicker is off.
+            </summary>
+        </member>
         <member name="F:DJI.WindowsSDK.CameraAntiFlicker.UNKNOWN">
             <summary>
             Unknown.
@@ -5669,14 +5855,69 @@
             Reminiscence.
             </summary>
         </member>
+        <member name="F:DJI.WindowsSDK.CameraColor.D_CINE_LIKE">
+            <summary>
+            D-Clinelike.
+            </summary>
+        </member>
         <member name="F:DJI.WindowsSDK.CameraColor.BLACK_WHITE">
             <summary>
             Black and white.
             </summary>
         </member>
+        <member name="F:DJI.WindowsSDK.CameraColor.D_LOG">
+            <summary>
+            DLog.
+            </summary>
+        </member>
         <member name="F:DJI.WindowsSDK.CameraColor.FILM">
             <summary>
             Film.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.CameraColor.FILM_B">
+            <summary>
+            Film B.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.CameraColor.FILM_C">
+            <summary>
+            Film C.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.CameraColor.FILM_D">
+            <summary>
+            Film D.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.CameraColor.FILM_E">
+            <summary>
+            Film E.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.CameraColor.FILM_F">
+            <summary>
+            Film F.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.CameraColor.FILM_G">
+            <summary>
+            Film G.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.CameraColor.FILM_H">
+            <summary>
+            Film H.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.CameraColor.FILM_I">
+            <summary>
+            Film I.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.CameraColor.HLG">
+            <summary>
+            HLG.
             </summary>
         </member>
         <member name="F:DJI.WindowsSDK.CameraColor.TRUE_COLOR">
@@ -5935,6 +6176,13 @@
             <summary>
             Sets the camera to take a burst of RAW photos. Use rawPhotoBurstCount to check
             how many photos have been shot. Only supported by X5S.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.CameraShootPhotoMode.EHDR">
+            <summary>
+            Sets the camera to take an enhanced-HDR photo. It blends a sequence of photos
+            for ghost-free high dynamic range photos. It is supported by Mavic 2 Zoom and
+            Mavic 2 Pro.
             </summary>
         </member>
         <member name="F:DJI.WindowsSDK.CameraShootPhotoMode.UNKNOWN">
@@ -6284,14 +6532,34 @@
             Unknown.
             </summary>
         </member>
+        <member name="T:DJI.WindowsSDK.VideoFileCompressionStandard">
+            <summary>
+            Camera video file compression standard values.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.VideoFileCompressionStandard.H264">
+            <summary>
+            H.264 format.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.VideoFileCompressionStandard.H265">
+            <summary>
+            H.265 format.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.VideoFileCompressionStandard.UNKNOWN">
+            <summary>
+            Unknown.
+            </summary>
+        </member>
         <member name="T:DJI.WindowsSDK.ProductType">
             <summary>
             The enums that describe differnt DJI products.
             </summary>
         </member>
-        <member name="F:DJI.WindowsSDK.ProductType.NONE">
+        <member name="F:DJI.WindowsSDK.ProductType.UNRECOGNIZED">
             <summary>
-            None. No product is connected.
+            None. No DJI product is recognized.
             </summary>
         </member>
         <member name="F:DJI.WindowsSDK.ProductType.OSMO">
@@ -6439,14 +6707,14 @@
         </member>
         <member name="F:DJI.WindowsSDK.WaypointActionType.STAY">
             <summary>
-            Keeps the aircraft at the waypoint's location.  The `actionParam` parameter will
-            determine how much time in milliseconds the aircraft  will stay at the location
-            with range of [0, 32767] milliseconds.
+            Keeps the aircraft at the waypoint's location.  The `int actionParam` parameter
+            will determine how much time in milliseconds the aircraft  will stay at the
+            location with range of [0, 32767] milliseconds.
             </summary>
         </member>
         <member name="F:DJI.WindowsSDK.WaypointActionType.START_TAKE_PHOTO">
             <summary>
-            Starts to shoot a photo.  The `actionParam` for the waypoint action will be
+            Starts to shoot a photo.  The `int actionParam` for the waypoint action will be
             ignored. The maximum time set to  execute this waypoint action is 6 seconds. If
             the time while executing the waypoint action goes above 6 seconds,  the aircraft
             will stop executing the waypoint action and will move on to the next waypoint
@@ -6455,17 +6723,17 @@
         </member>
         <member name="F:DJI.WindowsSDK.WaypointActionType.START_RECORD">
             <summary>
-            Starts recording.  The `actionParam` for the waypoint action will be ignored.
-            The maximum time set to  execute this waypoint action is 6 seconds. If the time
-            while executing the waypoint action goes  above 6 seconds (e.g. the camera is
-            not present) the aircraft will stop executing the waypoint action and will  move
-            on to the next waypoint action, if one exists.
+            Starts recording.  The `int actionParam` for the waypoint action will be
+            ignored. The maximum time set to  execute this waypoint action is 6 seconds. If
+            the time while executing the waypoint action goes  above 6 seconds (e.g. the
+            camera is not present) the aircraft will stop executing the waypoint action and
+            will  move on to the next waypoint action, if one exists.
             </summary>
         </member>
         <member name="F:DJI.WindowsSDK.WaypointActionType.STOP_RECORD">
             <summary>
-            Stops recording.  The `actionParam` for the waypoint action will be ignored. The
-            maximum time set to  execute this waypoint action is 6 seconds. If the time
+            Stops recording.  The `int actionParam` for the waypoint action will be ignored.
+            The maximum time set to  execute this waypoint action is 6 seconds. If the time
             while executing the waypoint action goes  above 6 seconds (e.g. the camera is
             not present) the aircraft will stop executing the waypoint action and will  move
             on to the next waypoint action, if one exists.
@@ -6474,14 +6742,14 @@
         <member name="F:DJI.WindowsSDK.WaypointActionType.ROTATE_AIRCRAFT">
             <summary>
             Rotates the aircraft's yaw. The rotation direction is determined by the
-            waypoint's `turnMode` property.  The `actionParam` value must be in the range of
-            [-180, 180] degrees.
+            waypoint's `WaypointTurnMode turnMode` property.  The `int actionParam` value
+            must be in the range of [-180, 180] degrees.
             </summary>
         </member>
         <member name="F:DJI.WindowsSDK.WaypointActionType.GIMBAL_PITCH">
             <summary>
-            Rotates the gimbal's pitch.  The `actionParam` value should be in range [-90, 0]
-            degrees.
+            Rotates the gimbal's pitch.  The `int actionParam` value should be in range
+            [-90, 0] degrees.
             </summary>
         </member>
         <member name="F:DJI.WindowsSDK.WaypointActionType.UNKNOWN">
@@ -6603,8 +6871,8 @@
         <member name="F:DJI.WindowsSDK.WaypointMissionFlightPathMode.CURVED">
             <summary>
             The flight path will be curved and the aircraft will move from one waypoint to
-            the next in a curved motion,  adhering to the `cornerRadiusInMeters`, which is
-            set in `Waypoint`.
+            the next in a curved motion,  adhering to the `double cornerRadiusInMeters`,
+            which is set in `Waypoint`.
             </summary>
         </member>
         <member name="F:DJI.WindowsSDK.WaypointMissionFlightPathMode.UNKNOWN">
@@ -6706,19 +6974,19 @@
         <member name="F:DJI.WindowsSDK.WaypointMissionExecuteState.MOVING">
             <summary>
             Aircraft is currently moving toward the mission's next waypoint. This happens
-            when the `flightPathMode` is set to `NORMAL`.
+            when the `WaypointMissionFlightPathMode flightPathMode` is set to `NORMAL`.
             </summary>
         </member>
         <member name="F:DJI.WindowsSDK.WaypointMissionExecuteState.CURVE_MODE_MOVING">
             <summary>
-            Aircraft is currently moving. This happens when the `flightPathMode` is set to
-            `CURVED`.
+            Aircraft is currently moving. This happens when the
+            `WaypointMissionFlightPathMode flightPathMode` is set to `CURVED`.
             </summary>
         </member>
         <member name="F:DJI.WindowsSDK.WaypointMissionExecuteState.CURVE_MODE_TURNING">
             <summary>
-            Aircraft is currently turning. This happens when the `flightPathMode` is set to
-            `CURVED`.
+            Aircraft is currently turning. This happens when the
+            `WaypointMissionFlightPathMode flightPathMode` is set to `CURVED`.
             </summary>
         </member>
         <member name="F:DJI.WindowsSDK.WaypointMissionExecuteState.BEGIN_ACTION">
@@ -6742,7 +7010,7 @@
         <member name="F:DJI.WindowsSDK.WaypointMissionExecuteState.RETURN_TO_FIRST_POINT">
             <summary>
             Aircraft has returned to the first waypoint. This happens when the
-            `finishedAction` is set to `GO_FIRST_WAYPOINT`.
+            `WaypointMissionFinishedAction finishedAction` is set to `GO_FIRST_WAYPOINT`.
             </summary>
         </member>
         <member name="F:DJI.WindowsSDK.WaypointMissionExecuteState.PAUSED">
@@ -7999,24 +8267,212 @@
             Unknown.
             </summary>
         </member>
-        <member name="T:DJI.WindowsSDK.RCTransformationSwitchState">
+        <member name="T:DJI.WindowsSDK.IMUSensorState">
             <summary>
-            Transformation Switch position states.
+            IMU sensor state values.
             </summary>
         </member>
-        <member name="F:DJI.WindowsSDK.RCTransformationSwitchState.RETRACT">
+        <member name="F:DJI.WindowsSDK.IMUSensorState.DISCONNECTED">
             <summary>
-            Retract landing gear switch state.
+            The IMU sensor is disconnected from the flight controller.
             </summary>
         </member>
-        <member name="F:DJI.WindowsSDK.RCTransformationSwitchState.DEPLOY">
+        <member name="F:DJI.WindowsSDK.IMUSensorState.CALIBRATING">
             <summary>
-            Deploy landing gear switch state.
+            The IMU sensor is calibrating
             </summary>
         </member>
-        <member name="F:DJI.WindowsSDK.RCTransformationSwitchState.UNKNOWN">
+        <member name="F:DJI.WindowsSDK.IMUSensorState.CALIBRATION_FAILED">
+            <summary>
+            Calibrate of the IMU sensor failed.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.IMUSensorState.DATA_EXCEPTION">
+            <summary>
+            The IMU sensor has a data exception. Calibrate the IMU and restart the aircraft.
+            If afterwards the status still exists, you may need to contact DJI for further
+            assistance.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.IMUSensorState.WARMING_UP">
+            <summary>
+            The IMU sensor is warming up.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.IMUSensorState.IN_MOTION">
+            <summary>
+            The IMU sensor is not static; the aircraft may not be stable enough to calculate
+            sensor data correctly.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.IMUSensorState.NORMAL_BIAS">
+            <summary>
+            The IMU's bias value is normal; the aircraft can safely take off.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.IMUSensorState.MEDIUM_BIAS">
+            <summary>
+            The IMU's bias value is medium; the aircraft can safely take off.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.IMUSensorState.LARGE_BIAS">
+            <summary>
+            The IMU's bias value is large; the aircraft cannot take off. IMU calibration is
+            needed.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.IMUSensorState.UNKNOWN">
             <summary>
             Unknown.
+            </summary>
+        </member>
+        <member name="T:DJI.WindowsSDK.IMUCalibrationState">
+            <summary>
+            IMU calibration state values.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.IMUCalibrationState.NONE">
+            <summary>
+            IMU is not calibrating.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.IMUCalibrationState.CALIBRATING">
+            <summary>
+            IMU calibration is in progress.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.IMUCalibrationState.SUCCESSFUL">
+            <summary>
+            IMU calibration successed.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.IMUCalibrationState.FAILED">
+            <summary>
+            IMU calibration failed.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.IMUCalibrationState.UNKNOWN">
+            <summary>
+            Unknown.
+            </summary>
+        </member>
+        <member name="T:DJI.WindowsSDK.IMUCalibrationOrientation">
+            <summary>
+            The values of different orientations which the aircraft needs for a multi-
+            orientation IMU calibration.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.IMUCalibrationOrientation.NOSE_DOWN">
+            <summary>
+            The front/nose of the aircraft should be pointed down.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.IMUCalibrationOrientation.TAIL_DOWN">
+            <summary>
+            The back/tail of the aircraft should be pointed down.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.IMUCalibrationOrientation.RIGHT_DOWN">
+            <summary>
+            The right/starboard side of the aircraft should be pointed down.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.IMUCalibrationOrientation.LEFT_DOWN">
+            <summary>
+            The left/port side of the aircraft should be pointed down.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.IMUCalibrationOrientation.BOTTOM_DOWN">
+            <summary>
+            The bottom/underbelly of the aircraft should be pointed down.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.IMUCalibrationOrientation.TOP_DOWN">
+            <summary>
+            The top of the aircraft should be pointed down.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.IMUCalibrationOrientation.UNKNOWN">
+            <summary>
+            Unknown.
+            </summary>
+        </member>
+        <member name="T:DJI.WindowsSDK.IMUOrientationCalibrationState">
+            <summary>
+            IMU calibration status for the current aircraft orientation.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.IMUOrientationCalibrationState.CALIBRATING">
+            <summary>
+            Calibration of current aircraft orientation is in progress.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.IMUOrientationCalibrationState.COMPLETED">
+            <summary>
+            Calibration of current aircraft orientation is done.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.IMUOrientationCalibrationState.UNKNOWN">
+            <summary>
+            Unknown.
+            </summary>
+        </member>
+        <member name="T:DJI.WindowsSDK.AircraftBindingState">
+            <summary>
+            The aircraft's binding state.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.AircraftBindingState.INITIAL">
+            <summary>
+            The binding state of the aircraft is not yet determined. The aircraft will only
+            be in this state until DJI Go or a DJI Mobile SDK based application rights the
+            binding information to the aircraft. Binding is only required if the user is in
+            China. If the user is not in China, then this state will become
+            <code>Value_BindingState_NOT_REQUIRED</code> after the country code check is
+            complete. In this state, the aircraft will have the 30m height and 50m radius
+            limitation.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.AircraftBindingState.UNBOUND">
+            <summary>
+            The aircraft is not currently bound, and needs to be (as it is in China). In
+            this state, the aircraft will have 30m max flight height and 50m max flight
+            distance limitation. User should finish the one-off binding process with DJI Go
+            to remove the flight limitation.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.AircraftBindingState.UNBOUND_BUT_CANNOT_SYNC">
+            <summary>
+            The aircraft is flying inside China and is unbound. The aircraft can be bound
+            using DJI Go. If DJI Go is connected to the aircraft, then the binding will be
+            stored in the aircraft. If DJI Go is not connected to the aircraft during the
+            binding process, then the binding result will be stored on a server. The SDK can
+            query this server to see if the binding has already happened, and if it has,
+            download the binding to the aircraft. However, if the aircraft is unbound, and
+            the server is not reachable, then this state will be presented. The user should
+            connect the mobile device to the Internet to refresh this state.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.AircraftBindingState.BOUND">
+            <summary>
+            The aircraft is bound.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.AircraftBindingState.NOT_REQUIRED">
+            <summary>
+            The aircraft is not bound but it is not currently located in China. Therefore,
+            binding the aircraft is not required.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.AircraftBindingState.NOT_SUPORTED">
+            <summary>
+            The aircraft's firmware does not support the App Activation system.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.AircraftBindingState.UNKNOWN">
+            <summary>
+            Either the aircraft is disconnected or the connected product is not a DJI
+            aircraft.
             </summary>
         </member>
         <member name="T:DJI.WindowsSDK.RCFlightModeSwitch">
@@ -8083,6 +8539,121 @@
         <member name="F:DJI.WindowsSDK.VisionSystemWarning.UNKNOWN">
             <summary>
             Unknown.
+            </summary>
+        </member>
+        <member name="T:DJI.WindowsSDK.LandingProtectionState">
+            <summary>
+            Values of landing protection.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.LandingProtectionState.NONE">
+            <summary>
+            The aircraft is not executing auto-landing or the downward vision sensor has not
+            started to analyze the ground yet.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.LandingProtectionState.ANALYZING">
+            <summary>
+            The downward vision sensor is analyzing the ground at the landing zone.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.LandingProtectionState.ANALYSIS_FAILED">
+            <summary>
+            The downward vision sensor's analysis failed. Either the auto-landing can be
+            attempted again, or the user needs to land the aircraft manually.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.LandingProtectionState.SAFE_TO_LAND">
+            <summary>
+            The ground is flat and the aircraft is safe to land automatically.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.LandingProtectionState.NOT_SAFE_TO_LAND">
+            <summary>
+            Landing area is not flat enough to be considered safe for landing. The aircraft
+            should be moved to an area that is more flat and an auto-land should be
+            attempted again or the user should land the aircraft manually.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.LandingProtectionState.UNKNOWN">
+            <summary>
+            Unknown.
+            </summary>
+        </member>
+        <member name="T:DJI.WindowsSDK.VisionSensorPosition">
+            <summary>
+            Position of the vision sensor.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.VisionSensorPosition.NOSE">
+            <summary>
+            The sensor is on the front or nose of the aircraft.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.VisionSensorPosition.TAIL">
+            <summary>
+            The sensor is on the back or tail of the aircraft.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.VisionSensorPosition.RIGHT">
+            <summary>
+            The sensor is on the right or starboard side of the aircraft.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.VisionSensorPosition.LEFT">
+            <summary>
+            The sensor is on the left or port side of the aircraft.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.VisionSensorPosition.UNKNOWN">
+            <summary>
+            Unknown.
+            </summary>
+        </member>
+        <member name="T:DJI.WindowsSDK.ObstacleDetectionSectorWarning">
+            <summary>
+            Warning level values of obstalcle detection.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.ObstacleDetectionSectorWarning.INVALID">
+            <summary>
+            The warning level is invalid. The sector cannot determine depth of the scene in
+            front of it.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.ObstacleDetectionSectorWarning.LEVEL_1">
+            <summary>
+            Level 1.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.ObstacleDetectionSectorWarning.LEVEL_2">
+            <summary>
+            Level 2.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.ObstacleDetectionSectorWarning.LEVEL_3">
+            <summary>
+            Level 3.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.ObstacleDetectionSectorWarning.LEVEL_4">
+            <summary>
+            Level 4.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.ObstacleDetectionSectorWarning.LEVEL_5">
+            <summary>
+            Level 5.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.ObstacleDetectionSectorWarning.LEVEL_6">
+            <summary>
+            Level 6.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.ObstacleDetectionSectorWarning.UNKNOWN">
+            <summary>
+            UNKNOWN.
             </summary>
         </member>
         <member name="T:DJI.WindowsSDK.EmptyMsg">
@@ -8166,6 +8737,16 @@
             </summary>
         </member>
         <member name="F:DJI.WindowsSDK.CameraFocusModeMsg.value">
+            <summary>
+            The actual value of the class.
+            </summary>
+        </member>
+        <member name="T:DJI.WindowsSDK.CameraTypeMsg">
+            <summary>
+            A class that contains the camera type of cameras.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.CameraTypeMsg.value">
             <summary>
             The actual value of the class.
             </summary>
@@ -8358,19 +8939,19 @@
         <member name="F:DJI.WindowsSDK.GimbalAngleRotation.pitch">
             <summary>
             The pitch property of a gimbal rotation operation, how much the gimbal rotates
-            on the pitch axis.  It only takes effect when `pitchIgnored` is false.
+            on the pitch axis.  It only takes effect when `bool pitchIgnored` is false.
             </summary>
         </member>
         <member name="F:DJI.WindowsSDK.GimbalAngleRotation.roll">
             <summary>
             The roll property of a gimbal rotation operation, how much the gimbal rotates on
-            the pitch axis.  It only takes effect when `rollIgnored` is false.
+            the pitch axis.  It only takes effect when `bool rollIgnored` is false.
             </summary>
         </member>
         <member name="F:DJI.WindowsSDK.GimbalAngleRotation.yaw">
             <summary>
             The yaw property of a gimbal rotation operation, how much the gimbal rotates on
-            the pitch axis.  It only takes effect when `yawIgnored` is false.
+            the pitch axis.  It only takes effect when `bool yawIgnored` is false.
             </summary>
         </member>
         <member name="F:DJI.WindowsSDK.GimbalAngleRotation.pitchIgnored">
@@ -8526,7 +9107,8 @@
         </member>
         <member name="F:DJI.WindowsSDK.CameraWhiteBalance.colorTemperature">
             <summary>
-            The color temperature. It is only valid when `mode` is `MANUAL`.
+            The color temperature. It is only valid when `CameraWhiteBalanceMode mode` is
+            `MANUAL`.
             </summary>
         </member>
         <member name="T:DJI.WindowsSDK.PhotoIntervalShootSettings">
@@ -8551,6 +9133,16 @@
             or RAW+JPEG, the range is [10, 2^16 - 1] seconds.
             </summary>
         </member>
+        <member name="T:DJI.WindowsSDK.VideoFileCompressionStandardMsg">
+            <summary>
+            A class that contains the compression standard of cameras.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.VideoFileCompressionStandardMsg.value">
+            <summary>
+            The actual value of the class.
+            </summary>
+        </member>
         <member name="T:DJI.WindowsSDK.ProductTypeMsg">
             <summary>
             A class contains a product type of DJI products.
@@ -8559,6 +9151,16 @@
         <member name="F:DJI.WindowsSDK.ProductTypeMsg.value">
             <summary>
             The actual value of the class.
+            </summary>
+        </member>
+        <member name="T:DJI.WindowsSDK.CameraColorRangeMsg">
+            <summary>
+            A class that contains the color range of cameras.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.CameraColorRangeMsg.value">
+            <summary>
+            The actual range enum of the ranges.
             </summary>
         </member>
         <member name="T:DJI.WindowsSDK.GimbalAttitudeRange">
@@ -8593,8 +9195,8 @@
         </member>
         <member name="F:DJI.WindowsSDK.GimbalCalibrationState.progress">
             <summary>
-            The calibration progress in percentage. It is valid when `status` is
-            `IN_PROGRESS`.
+            The calibration progress in percentage. It is valid when
+            `GimbalCalibrationStatus status` is `IN_PROGRESS`.
             </summary>
         </member>
         <member name="T:DJI.WindowsSDK.CameraStorageLocationMsg">
@@ -8778,8 +9380,8 @@
         <member name="F:DJI.WindowsSDK.Waypoint.gimbalPitch">
             <summary>
             Gimbal pitch angle when reached this waypoint.  This property is used when the
-            `WaypointMission` property `gimbalPitchRotationEnabled` is true.  Value should
-            in range [-90, 0] degree.
+            `WaypointMission` property `bool gimbalPitchRotationEnabled` is true.  Value
+            should in range [-90, 0] degree.
             </summary>
         </member>
         <member name="F:DJI.WindowsSDK.Waypoint.actionRepeatTimes">
@@ -8813,20 +9415,20 @@
             <summary>
             The base automatic speed of the aircraft as it moves between this waypoint and
             the next waypoint with range [0, 15] m/s.  By default, it is 0.0 and the
-            aircraft will fly with `autoFlightSpeed` of the waypoint mission.  If greater
-            than 0, 'speed' will override `autoFlightSpeed`.  This 'speed' can only define
-            movement forward through the waypoint mission in comparison to `autoFlightSpeed`
-            which can be both forward and backwards through a waypoint mission.  Waypoint
-            mission speed priority from highest to lowest is:
+            aircraft will fly with `double autoFlightSpeed` of the waypoint mission.  If
+            greater than 0, 'speed' will override `double autoFlightSpeed`.  This 'speed'
+            can only define movement forward through the waypoint mission in comparison to
+            `double autoFlightSpeed` which can be both forward and backwards through a
+            waypoint mission.  Waypoint mission speed priority from highest to lowest is:
              1) manual speed adjustment with remote controller joy sticks
              2) 'speed'
              3) The updated auto flight speed during the mission
-             4) `autoFlightSpeed`
-             Warning: 'speed', `shootPhotoTimeInterval` and `shootPhotoDistanceInterval`
-            relate to behavior between this waypoint and the next waypoint in the mission.
-            In comparison, turnMode, altitude and heading relate to behavior between the
-            last waypoint and this waypoint in the waypoint mission.  Only supported by
-            flight controller firmware 3.2.10.0 or above.
+             4) `double autoFlightSpeed`
+             Warning: 'speed', `double shootPhotoTimeInterval` and `double
+            shootPhotoDistanceInterval` relate to behavior between this waypoint and the
+            next waypoint in the mission.  In comparison, turnMode, altitude and heading
+            relate to behavior between the last waypoint and this waypoint in the waypoint
+            mission.  Only supported by flight controller firmware 3.2.10.0 or above.
             </summary>
         </member>
         <member name="F:DJI.WindowsSDK.Waypoint.shootPhotoTimeInterval">
@@ -8842,11 +9444,11 @@
             For a waypoint, either shootPhotoTimeInterval or shootPhotoDistanceInterval is
             0.0.  Input with precision of greater than 1 decimal places, will be rounded to
             1.
-             Warning: 'speed', `shootPhotoTimeInterval` and `shootPhotoDistanceInterval`
-            relate to behavior between this waypoint and the next waypoint in the mission.
-            In comparison, turnMode, altitude and heading relate to behavior between the
-            last waypoint and this waypoint in the waypoint mission.  Only supported by
-            flight controller firmware 3.2.10.0 or above.
+             Warning: 'speed', `double shootPhotoTimeInterval` and `double
+            shootPhotoDistanceInterval` relate to behavior between this waypoint and the
+            next waypoint in the mission.  In comparison, turnMode, altitude and heading
+            relate to behavior between the last waypoint and this waypoint in the waypoint
+            mission.  Only supported by flight controller firmware 3.2.10.0 or above.
             </summary>
         </member>
         <member name="F:DJI.WindowsSDK.Waypoint.shootPhotoDistanceInterval">
@@ -8859,14 +9461,14 @@
             file format is RAW, the time interval between two photos cannot smaller than 10
             seconds.  If the input exceeds the camera's capability, the taken photos may be
             less than expectation. The default value is 0.0 and no photo will be taken.  For
-            a waypoint, either `shootPhotoTimeInterval` or `shootPhotoDistanceInterval` is
-            0.0.  Input with precision of greater than 1 decimal places, will be rounded to
-            1.
-              Warning: 'speed', `shootPhotoTimeInterval` and `shootPhotoDistanceInterval`
-            relate to behavior between this waypoint and the next waypoint in the mission.
-            In comparison, turnMode, altitude and heading relate to behavior between the
-            last waypoint and this waypoint in the waypoint mission.  Only supported by
-            flight controller firmware 3.2.10.0 or above.
+            a waypoint, either `double shootPhotoTimeInterval` or `double
+            shootPhotoDistanceInterval` is 0.0.  Input with precision of greater than 1
+            decimal places, will be rounded to 1.
+              Warning: 'speed', `double shootPhotoTimeInterval` and `double
+            shootPhotoDistanceInterval` relate to behavior between this waypoint and the
+            next waypoint in the mission.  In comparison, turnMode, altitude and heading
+            relate to behavior between the last waypoint and this waypoint in the waypoint
+            mission.  Only supported by flight controller firmware 3.2.10.0 or above.
             </summary>
         </member>
         <member name="F:DJI.WindowsSDK.Waypoint.waypointActions">
@@ -8929,7 +9531,8 @@
             range [-15, 15] m/s.  The aircraft's actual speed is a combination of the base
             automatic speed, and the speed control given by the throttle joystick on the
             remote controller.  If `autoFlightSpeed` &gt; 0: Actual speed is
-            `autoFlightSpeed` + Joystick Speed (with combined max of `maxFlightSpeed`)
+            `autoFlightSpeed` + Joystick Speed (with combined max of `double
+            maxFlightSpeed`)
              If autoFlightSpeed = 0: Actual speed is controlled only by the remote
             controller joystick.
              If `autoFlightSpeed` &lt; 0 and the aircraft is at the first waypoint, the
@@ -8969,14 +9572,15 @@
         <member name="F:DJI.WindowsSDK.WaypointMission.pointOfInterest">
             <summary>
             Aircraft heading will be fixed to the point of interest location during the
-            waypoint mission.  Used when `headingMode` is `TOWARD_POINT_OF_INTEREST`.
+            waypoint mission.  Used when `WaypointMissionHeadingMode headingMode` is
+            `TOWARD_POINT_OF_INTEREST`.
             </summary>
         </member>
         <member name="F:DJI.WindowsSDK.WaypointMission.gimbalPitchRotationEnabled">
             <summary>
             `TRUE` if the gimbal pitch rotation can be controlled during the waypoint
-            mission.  When `TRUE`, `gimbalPitch` in `Waypoint` is used to control gimbal
-            pitch.
+            mission.  When `TRUE`, `double gimbalPitch` in `Waypoint` is used to control
+            gimbal pitch.
             </summary>
         </member>
         <member name="F:DJI.WindowsSDK.WaypointMission.repeatTimes">
@@ -9151,14 +9755,104 @@
             The actual value of the class.
             </summary>
         </member>
-        <member name="T:DJI.WindowsSDK.RCTransformationSwitchStateMsg">
+        <member name="T:DJI.WindowsSDK.IMUMultipleOrientationCalibrationHint">
             <summary>
-            A class that contains a transformation switch state of remote controllers.
+            A class is used to lead the user through an IMU calibration for products that
+            require calibration at multiple orientations.
             </summary>
         </member>
-        <member name="F:DJI.WindowsSDK.RCTransformationSwitchStateMsg.value">
+        <member name="F:DJI.WindowsSDK.IMUMultipleOrientationCalibrationHint.state">
             <summary>
-            The actual value of the class.
+            Calibration status of the current orientation.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.IMUMultipleOrientationCalibrationHint.orientationsToCalibrate">
+            <summary>
+            A list with the aircraft orientations that have not been calibrated yet.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.IMUMultipleOrientationCalibrationHint.orientationsCalibrated">
+            <summary>
+            A list with the aircraft orientations that have been calibrated.
+            </summary>
+        </member>
+        <member name="T:DJI.WindowsSDK.IMUState">
+            <summary>
+            Provides the Inertial Measurement Unit's (IMU) state information.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.IMUState.index">
+            <summary>
+            The IMU's ID. Starts at 0
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.IMUState.gyroscopic">
+            <summary>
+            Gyroscopic sensor's state value.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.IMUState.accelerometers">
+            <summary>
+            Accelerometers sensor's state value.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.IMUState.calibrationProgress">
+            <summary>
+            The IMU's calibration progress, its range being [1, 100]. If the IMU is not
+            calibrating, the value of the calibration progress will be -1.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.IMUState.calibrationState">
+            <summary>
+            The status of the IMU's calibration.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.IMUState.multipleOrientationCalibrationHint">
+            <summary>
+            For products that require the user to orient the aircraft during the IMU
+            calibration, this method can be used to inform the user when each orientation is
+            done
+            </summary>
+        </member>
+        <member name="T:DJI.WindowsSDK.GoHomeAssessmentValue">
+            <summary>
+            A class that containes the gohome assessment.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.GoHomeAssessmentValue.batteryPercentNeededToGoHome">
+            <summary>
+            The battery percent that aircraft needs to go home.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.GoHomeAssessmentValue.batteryPercentNeededToLand">
+            <summary>
+            The battery percent that aircraft needs to land.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.GoHomeAssessmentValue.maxRadiusCanFlyAndGoHome">
+            <summary>
+            The max radius the aircraft could fly or go home.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.GoHomeAssessmentValue.smartRTHCountdown">
+            <summary>
+            The countdown of smart RTH. The aircraft would start gohome action when this
+            value become 0.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.GoHomeAssessmentValue.remainingFlightTime">
+            <summary>
+            Remaining time the aircraft could fly.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.GoHomeAssessmentValue.timeNeededToGoHome">
+            <summary>
+            Time which the aircraft needed to go home.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.GoHomeAssessmentValue.timeNeededToLand">
+            <summary>
+            Time which the aircraft needed to land.
             </summary>
         </member>
         <member name="T:DJI.WindowsSDK.RCFlightModeSwitchMsg">
@@ -9202,6 +9896,62 @@
             The actual value of the class.
             </summary>
         </member>
+        <member name="T:DJI.WindowsSDK.LandingProtectionStateMsg">
+            <summary>
+            A class containes the landing protection state.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.LandingProtectionStateMsg.value">
+            <summary>
+            The actual value of the class.
+            </summary>
+        </member>
+        <member name="T:DJI.WindowsSDK.ObstacleDetectionSector">
+            <summary>
+            A class containes the infomation of obstacel detection sector.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.ObstacleDetectionSector.warningLevel">
+            <summary>
+            The warning level of obstacle detection.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.ObstacleDetectionSector.obstacleDistanceInMeters">
+            <summary>
+            The distance of the obstracle in meters.
+            </summary>
+        </member>
+        <member name="T:DJI.WindowsSDK.VissionDetectionState">
+            <summary>
+            The state of vission detection.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.VissionDetectionState.isSensorBeingUsed">
+            <summary>
+            If the sensor being used. The sensor would not be working if this value is
+            false.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.VissionDetectionState.systemWarning">
+            <summary>
+            System warning of vision.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.VissionDetectionState.position">
+            <summary>
+            Postion of the vision sensor.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.VissionDetectionState.obstacleDistanceInMeters">
+            <summary>
+            Distance of obstacle in meters.
+            </summary>
+        </member>
+        <member name="F:DJI.WindowsSDK.VissionDetectionState.detectionSectors">
+            <summary>
+            Infomation of detection sectors.
+            </summary>
+        </member>
         <member name="T:DJI.WindowsSDK.VideoDataUpdatedEventHandler">
             <summary>
             A delegate type used to subscribe the video data of the live view.
@@ -9231,6 +9981,16 @@
             </summary>
             <param name="productIndex">The product from which the video feed is.</param>
             <returns>The primary video feed object corresponding to the product.</returns>
+        </member>
+        <member name="M:DJI.WindowsSDK.VideoFeeder.ParseAssitantDecodingInfo(System.Int32,System.Byte[])">
+            <summary>
+            An interface that receive the decoded frame data to DJI Windows SDK and return
+            assisant infomation.  For Mavic 2, after passing decoded frame data, DJI Windows
+            SDK would ask Mavic 2 for necessary video data for decoding.
+            </summary>
+            <param name="productIndex">Index of connected product.</param>
+            <param name="data">Video frame data from DJIVideoParser.</param>
+            <returns>The assistant info for DJIVideoParser to decode video feed.</returns>
         </member>
         <member name="T:DJI.WindowsSDK.VirtualRemoteController">
             <summary>
